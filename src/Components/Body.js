@@ -1,14 +1,15 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../Utils/useOnlineStatus";
 
 const Body = () => {
+
+  const PromotedLabelComponent = withPromotedLabel(RestaurantCard)
   // Local State Variable - Super powerful variable
   const [listOfRestaurants, setListOfRestraunt] = useState([]);
   const [filteredRestaurant, setFilteredRestaurant] = useState([]);
-
   const [searchText, setSearchText] = useState("");
 
   // Whenever state variables update, react triggers a reconciliation cycle(re-renders the component)
@@ -39,7 +40,6 @@ const Body = () => {
         Looks like you're offline!! Please check your internet connection;
       </h1>
     );
-
   return listOfRestaurants.length === 0 ? (
     <Shimmer />
   ) : (
@@ -91,7 +91,8 @@ const Body = () => {
             key={restaurant.info.id}
             to={"/restaurants/" + restaurant.info.id}
           >
-            <RestaurantCard resData={restaurant} />
+            {!!restaurant?.info?.veg ? <PromotedLabelComponent resData={restaurant}/> : 
+            <RestaurantCard resData={restaurant} />}
           </Link>
         ))}
       </div>
