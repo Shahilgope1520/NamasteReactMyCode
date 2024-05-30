@@ -1,12 +1,14 @@
 import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../Utils/useOnlineStatus";
+import UserContext from "../Utils/UserContext";
 
 const Body = () => {
 
   const PromotedLabelComponent = withPromotedLabel(RestaurantCard)
+  const {setUser} =useContext(UserContext)
   // Local State Variable - Super powerful variable
   const [listOfRestaurants, setListOfRestraunt] = useState([]);
   const [filteredRestaurant, setFilteredRestaurant] = useState([]);
@@ -71,7 +73,7 @@ const Body = () => {
             Search
           </button>
         </div>
-        <div className="search m-4 p-4">
+        <div className="search m-4 p-4 flex items-center">
         <button
           className="px-4 py-0.5 bg-gray-100 m-4 rounded-lg"
           onClick={() => {
@@ -83,6 +85,10 @@ const Body = () => {
         >
           Top Rated Restaurants
         </button>
+        </div>
+        <div className="search m-4 p-4 flex items-center">
+          <label>User:</label>
+          <input className="border border-black p-2" onChange={(e)=>setUser(e.target.value)}/>
         </div>
       </div>
       <div className="flex flex-wrap">
